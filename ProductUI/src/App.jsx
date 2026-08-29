@@ -7,6 +7,8 @@ import Card from './Card'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [search, setSearch] = useState("")
+  const [selectedProduct, setSelectedProduct] = useState(null)
   const products = [
   {
     name: "Wireless Mouse",
@@ -130,10 +132,86 @@ function App() {
 }
   
 ];
+ const filteredProducts = products.filter((product) =>
+        product.name.toLowerCase().includes(search.toLowerCase())
+    )
   return (
+            <>
+<div className="search-bar">
+
+    <select>
+        <option>All</option>
+        <option>Electronics</option>
+        <option>Accessories</option>
+    </select>
+
+    <div className="search-container">
+
+        <input
+            type="text"
+            placeholder="Search TechCart.in"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+        />
+
+        {search && filteredProducts.length > 0 && (
+            <div className="suggestions">
+
+                {filteredProducts.map((product, index) => (
+                    <div className="suggestion" key={index} onClick={() => setSelectedProduct(product)}>
+                        {product.name}
+                    </div>
+                ))}
+
+            </div>
+        )}
+
+    </div>
+
+    <button>🔍</button>
+
+</div>
+{selectedProduct && (
+    <div className="product-modal">
+
+        <div className="modal-content">
+
+            <button
+                className="close-btn"
+                onClick={() => setSelectedProduct(null)}
+            >
+                ×
+            </button>
+
+            <img
+                src={selectedProduct.image}
+                alt={selectedProduct.name}
+            />
+
+            <div className="modal-details">
+
+                <h2>{selectedProduct.name}</h2>
+
+                <p>{selectedProduct.description}</p>
+
+                <h3>{selectedProduct.price}</h3>
+
+                <p>
+                    {selectedProduct.available
+                        ? "✓ Available"
+                        : "✕ Out of Stock"}
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+)}
+    
     <div className="app">
 
-        <h1 className="page-title">Tech Cart</h1>
+        <h1 className="page-title">TechCart</h1>
 
         <div className="product-grid">
 
@@ -152,6 +230,7 @@ function App() {
             })}
         </div>
     </div>
+    </>
 )
 }
 export default App;

@@ -1,4 +1,6 @@
+import {useState} from "react";
 function Card(props) {
+    const[count,setCount]=useState(0);
     return (
         <div className="card">
             <div className="card-content">
@@ -24,6 +26,16 @@ function Card(props) {
                 </p>
 
                 <div className="buttons">
+                    <div className="counter">
+      <button onClick={() => setCount(Math.max(0, count - 1))}>
+        -
+    </button>
+
+    <span>{count}</span>
+
+    <button onClick={() => setCount(count + 1)}>+</button>
+</div>
+                   
 
                 {props.available && (
                     <button className="buy-btn">
